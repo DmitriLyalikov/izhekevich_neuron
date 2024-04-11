@@ -39,7 +39,6 @@ module tt_um_exai_izhekevich_neuron (
   // All output pins must be assigned. If not used, assign to 0.
   assign uio_out = 0;
   assign uio_oe  = 0;
-  assign uio_in  = 0;
 
 
   // Read in parameters based on behavior selection
