@@ -73,7 +73,7 @@ module tt_um_exai_izhekevich_neuron (
 		  begin
         // Compare integer part of v1 to integer part of p (30)
         // Cheap way to check negativity
-			  if ((v1[16:9] > p[16:9] and !v1[17])) // If v1 is greater than p
+			  if ((v1 > p)) // If v1 is greater than p
 			    begin  // Spike
 				    v1 <= c; 		
 				    u1 <= ureset;
