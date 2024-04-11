@@ -16,14 +16,27 @@ module tt_um_exai_izhekevich_neuron (
     input  wire       rst_n     // reset_n - low to reset
 );
 
+  // All numbers are signed (18-bit) 8.9 fixed point numbers where:
+  //  the MSB is the sign bit
+  // the next 7 bits are the integer part
+  // the last 9 bits are the fractional part
+  // 2 = 0b0_00000010_00000000
+  // 0.02 = 0b0_00000000_00000010
 
-  parameter a = 'sh0_1999;
-  parameter b = 20'sh0_3333;
-  parameter c = 'shF_599A;
-  parameter d = 'sh0_051E;
-  localparam size = 20;
-  localparam signed p =  'sh0_4CCC ; //peak overshoot
-  localparam signed c14 = 'sh1_6666; // constants
+  // Param A: default is 0.02 (0b0_0000000_000000010)
+  parameter signed a = 18'b0_00000000_000000010;
+  // Param B: default is 0.02 (0b0_0000000_000000010)
+  parameter signed b = 18'b0_00000000_000000010;
+  // Param C: default is -65 (0b1_0000000_000000000)
+  parameter signed c = 18'b1_01000001_000000000;
+  // Param D: default is 8 (0b0_0000000_0000000000)
+  parameter signed d = 18'b0_00001000_0000000000;
+  localparam size = 18;
+  // Peak overshoot (voltage threshold for spike detection) = 30
+  localparam signed p =  18'b0_0011110_0000000000;
+  // 140 used in the equation: `v[n+1] = v + (0.04 * v[n]^2) + (5 * v[n]) + 140 - u[n] + I`
+  localparam signed c14 = 18'b0_10001100_0000000000;
+  */
   // All output pins must be assigned. If not used, assign to 0.
   assign uio_out = 0;
   assign uio_oe  = 0;
@@ -44,7 +57,7 @@ module tt_um_exai_izhekevich_neuron (
   */
 
   // Parameters
-  reg signed [size-1:0] v1, u1;
+  reg signed [size-1:0] v1, u1, i;
   wire signed [size-1:0] v1new, u1new, ureset;
   wire signed [size-1:0] v1xv1, du, v1xb;
 
@@ -52,25 +65,29 @@ module tt_um_exai_izhekevich_neuron (
 	  begin
 		  if (rst == 0) //reset
 		  begin	
-			  v1 <= c;     
-			  u1 <= d;         
-			  spike <= 1'b0;
+			  v1 <= c;  // Set v1 to c (default is -65)
+			  u1 <= d;  // Set u1 to d (default is 8)   
+        i <= 0;    
+			  spike <= 1'b0; // Set spike to 0
 		end
-		else if(ena) 
+		else if(ena) // If tile enabled
 		  begin
-			  if ((v1 > p)) 
-			    begin 
-				    v1 <= c ; 		
-				    u1 <= ureset ;
-				    spike <= 1'b1;
+        // Compare integer part of v1 to integer part of p (30)
+        // Cheap way to check negativity
+			  if ((v1[16:9] > p[16:9] and !v1[17])) // If v1 is greater than p
+			    begin  // Spike
+				    v1 <= c; 		
+				    u1 <= ureset;
+            i[16:9] <= ui_in[7:0]; // Set i to input
 			    end
-			  else
+			  else     // No spike
 			    begin
 				    v1 <= v1new ;
 				    u1 <= u1new ; 
-			      spike <= 1'b0; 
+            i[16:9] <= ui_in[7:0]; // Set i to input
 		    	end 
 		  end 
+      uio_out = v1[16:9]; // Output integer part of v1
 	end
 
 
@@ -89,6 +106,26 @@ module tt_um_exai_izhekevich_neuron (
 
 endmodule
 
+
+// Multiplier module for signed 8.9 fixed point numbers
+// Input: a, b as signed 18-bit numbers where:
+//  the MSB is the sign bit,
+//  the next 7 bits are the integer part,
+//  the last 9 bits are the fractional part
+
+module signed_mult #(parameter size = 18)(out, a, b);
+ 
+	output 		[size-1:0]	out;
+	input 	signed	[size-1:0] 	a;
+	input 	signed	[size-1:0] 	b;
+	
+	wire	signed	[size-1:0]	out;
+	wire 	signed	[(2*size)-1:0]	mult_out;
+
+	assign mult_out = a * b;   
+  assign out = {mult_out[(2*size)-1],mult_out[size+14:32], mult_out[31:16]};
+	////////////// sign bit ---------// integer bits /// fractional bits ////
+endmodule
 
 
 
