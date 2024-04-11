@@ -85,7 +85,7 @@ module tt_um_exai_izhekevich_neuron (
             i[16:9] <= ui_in[7:0]; // Set i to input
 		    	end 
 		  end 
-      uio_out = v1[16:9]; // Output integer part of v1
+      uio_out <= v1[16:9]; // Output integer part of v1
 	end
 
 
