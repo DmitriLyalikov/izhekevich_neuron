@@ -39,6 +39,7 @@ module tt_um_exai_izhekevich_neuron (
   // All output pins must be assigned. If not used, assign to 0.
   assign uio_out = 0;
   assign uio_oe  = 0;
+  assign uio_in  = 0;
 
 
   // Read in parameters based on behavior selection
@@ -100,7 +101,7 @@ module tt_um_exai_izhekevich_neuron (
 	signed_mult #(size) aa(du, (v1xb-u1), a);
 	assign u1new = u1 + (du>>>4); 
 	assign ureset = u1 + d ;
-  assign uio_out = v1[16:9]; // Output integer part of v1
+  assign uo_out = v1[16:9]; // Output integer part of v1
 
 
 endmodule
