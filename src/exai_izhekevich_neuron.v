@@ -62,12 +62,11 @@ module tt_um_exai_izhekevich_neuron (
 
   always @ (posedge clk) 
 	  begin
-		  if (rst == 0) //reset
+		  if (rst_n == 0) //reset
 		  begin	
 			  v1 <= c;  // Set v1 to c (default is -65)
 			  u1 <= d;  // Set u1 to d (default is 8)   
         i <= 0;    
-			  spike <= 1'b0; // Set spike to 0
 		end
 		else if(ena) // If tile enabled
 		  begin
