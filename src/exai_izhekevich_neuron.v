@@ -36,7 +36,6 @@ module tt_um_exai_izhekevich_neuron (
   localparam signed p =  18'b0_0011110_0000000000;
   // 140 used in the equation: `v[n+1] = v + (0.04 * v[n]^2) + (5 * v[n]) + 140 - u[n] + I`
   localparam signed c14 = 18'b0_10001100_0000000000;
-  */
   // All output pins must be assigned. If not used, assign to 0.
   assign uio_out = 0;
   assign uio_oe  = 0;
