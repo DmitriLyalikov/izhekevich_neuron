@@ -85,7 +85,6 @@ module tt_um_exai_izhekevich_neuron (
             i[16:9] <= ui_in[7:0]; // Set i to input
 		    	end 
 		  end 
-      uio_out <= v1[16:9]; // Output integer part of v1
 	end
 
 
@@ -101,6 +100,8 @@ module tt_um_exai_izhekevich_neuron (
 	signed_mult #(size) aa(du, (v1xb-u1), a);
 	assign u1new = u1 + (du>>>4); 
 	assign ureset = u1 + d ;
+  assign uio_out = v1[16:9]; // Output integer part of v1
+
 
 endmodule
 
