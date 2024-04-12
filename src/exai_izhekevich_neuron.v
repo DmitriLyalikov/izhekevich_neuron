@@ -66,13 +66,13 @@ module tt_um_exai_izhekevich_neuron (
       begin
         v1 <= c;
         u1 <= u1reset;
-        assign uo_out = c[17:10];
+        uo_out <= c[17:10];
       end
       else
       begin
         v1 <= v1new;
         u1 <= u1new;
-        assign uo_out = v1new[17:10];
+        uo_out <= v1new[17:10];
       end
     end
   end
