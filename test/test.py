@@ -94,8 +94,9 @@ async def test_sweep(dut):
       for b in range(16):
         dut.ui_in.value = input_current
         dut.uio_in.value = (a << 4) | b
-        await ClockCycles(dut.clk, 1)
-        dut._log.info(f"{input_current} {a} {b} {int8_to8b_signed(dut.uo_out.value.integer)}")
+        for i in range(100):
+          await ClockCycles(dut.clk, 1)
+          dut._log.info(f"{input_current} {a} {b} {int8_to8b_signed(dut.uo_out.value.integer)}")
         # Reset the neuron
         dut.rst_n.value = 0
         await ClockCycles(dut.clk, 1)
