@@ -59,4 +59,4 @@ async def test_spike(dut):
   dut.uio_in.value = 255
   dut.ui_in.value = 255
   await ClockCycles(dut.clk, 1)
-  assert dut.uo_out.value > 30 
+  assert dut.uo_out.value.integer > 30 
