@@ -66,17 +66,15 @@ module tt_um_exai_izhekevich_neuron (
       begin
         v1 <= c;
         u1 <= u1reset;
-        uo_out <= c[17:10];
       end
       else
       begin
         v1 <= v1new;
         u1 <= u1new;
-        uo_out <= v1new[17:10];
       end
     end
   end
-
+  assign uo_out = v1[17:10];
   // dt = 1/16 or 2>>4
   // v1(n+1) = v1(n) + dt*(4*(v1(n)^2) + 5*v1(n) +1.40 - u1(n) +I)
   // What is actually implemented is:
