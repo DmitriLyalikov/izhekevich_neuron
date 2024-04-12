@@ -4,6 +4,7 @@
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
+import struct
 
 @cocotb.test()
 async def test_project(dut):
@@ -65,5 +66,10 @@ async def test_spike(dut):
   # iterate through 250 clock cycles and log uo_out
   for i in range(500):
     await ClockCycles(dut.clk, 1)
-    dut._log.info(dut.uo_out.value.integer)
+    dut._log.info(to_8b_signed(dut.uo_out.value.integer))
+
   dut._log.info("Done")
+
+
+def to_8b_signed(int):
+  return struct.pack("b", int)
