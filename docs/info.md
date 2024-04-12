@@ -15,7 +15,7 @@ This is a simple Izhikevich model of a neuron. The Izhikevich model is a spiking
 
 The model has four parameters: a, b, c, and d. These parameters can be adjusted to replicate the behavior of different types of neurons. The model also has an input current I that can be used to stimulate the neuron. The model is implemented in the `izhikevich_neuron` module. The module has a `step` method that takes an input current and updates the state of the neuron. The module also has a `get_voltage` method that returns the current voltage of the neuron.
 
-Explain how your project works
+By 
 
 ## How to test
 
