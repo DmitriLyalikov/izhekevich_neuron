@@ -5,7 +5,7 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = exai_izhekevich_neuron.v
+PROJECT_SOURCES = exai_izhikevich_neuron.v
 
 ifneq ($(GATES),yes)
 

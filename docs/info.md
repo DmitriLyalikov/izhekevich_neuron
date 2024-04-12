@@ -8,7 +8,7 @@ You can also include images in this folder and reference them in the markdown. E
 -->
 
 ## How it works
-This is a simple Izhikevich model of a neuron. The Izhikevich model is a simple model of a spiking neuron that is able to replicate the behavior of many different types of neurons. The model is described by the following equations:
+This is a simple Izhikevich model of a neuron. The Izhikevich model is a spiking neuron that is able to replicate the behavior of many different types of neurons. The model is described by the following equations:
     v' = 0.04v^2 + 5v + 140 - u + I
     u' = a(bv - u)
     if v >= 30 then v = c, u = u + d
@@ -18,10 +18,8 @@ The model has four parameters: a, b, c, and d. These parameters can be adjusted 
 Explain how your project works
 
 ## How to test
-Input a current to the neuron and observe the output voltage. The voltage should spike when the current is applied and then return to the resting voltage.
 
-Explain how to use your project
+
 
 ## External hardware
-N/A
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+

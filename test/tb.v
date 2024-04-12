@@ -23,7 +23,7 @@ module tb ();
   wire [7:0] uio_oe;
 
   // Replace tt_um_example with your module name:
- tt_um_exai_izhekevich_neuron tt_um_exai_izhekevich_neuron (
+ tt_um_exai_izhikevich_neuron tt_um_exai_izhikevich_neuron (
 
       // Include power ports for the Gate Level test:
 `ifdef GL_TEST

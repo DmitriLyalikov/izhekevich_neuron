@@ -1,12 +1,10 @@
 /*
- * Copyright (c) 2024 Your Name
+ * Copyright (c) 2024 Dmitri Lyalikov
  * SPDX-License-Identifier: Apache-2.0
  */
 
 `define default_netname none
 
-  // Read in parameters based on behavior selection
-  // ui_in[0-2] = behavior selection, where:
   /** 
     | Behavior                    | A   | B    | C   | D   |
     | --------------------------- | --- | ---- | --- | --- |
@@ -20,7 +18,8 @@
   */
 
 
-module tt_um_exai_izhekevich_neuron (
+// Top Level Module
+module tt_um_exai_izhikevich_neuron (
     input  wire [7:0] ui_in,    // Dedicated inputs
     output wire [7:0] uo_out,   // Dedicated outputs
     input  wire [7:0] uio_in,   // IOs: Input path
@@ -30,12 +29,11 @@ module tt_um_exai_izhekevich_neuron (
     input  wire       clk,      // clock
     input  wire       rst_n     // reset_n - low to reset
 );
-  // All output pins must be assigned. If not used, assign to 0.
-  assign uio_out = uio_in;
-  assign uio_oe  = 0;
+  assign uio_out = uio_in;      // We do not use second output pin, assign so Verilator doesn't yell at us
+  assign uio_oe  = 0;           // Config uio_in output enable to 0: Input mode
   
-  wire [3:0] a, b;
-  reg signed [17:0] v1, u1;
+  wire        [3:0]  a, b;         
+  reg signed  [17:0] v1, u1;
   wire signed [17:0] u1reset, v1new, u1new, du1;
   wire signed [17:0] v1xv1, v1xb;
   wire signed [17:0] p, c14;
@@ -44,38 +42,40 @@ module tt_um_exai_izhekevich_neuron (
 
   assign a = uio_in[3:0];
   assign b = uio_in[7:4];
-  // c = -6.5
   assign c = 18'sh3_8000;  // -6.5
-  // d = 0.6
   assign d = 18'sh0_051E;
   assign p = 18'sh0_4CCC;   // 30
   assign c14 = 18'sh1_6666; // 1.4
-  // Set the input of ui_in[7:0] to last 8 bits of I, 
-  assign I = {ui_in[7:0], 10'h0}; // 2.8 format
-  // Parameters
+
+  // 8-bit signed integer precision of input current 
+  assign I = {ui_in[7:0], 10'h0}; 
+
+  // Update logic 
   always @ (posedge clk)
   begin 
-    if (!rst_n)
+    if (!rst_n)          // Reset state
     begin
-      v1 <= 18'sh3_4CCD; // -0.7v
+      v1 <= 18'sh3_4CCD; // -0.7v 
       u1 <= 18'sh3_CCCD; // -0.2
     end
     else
     if (ena)
     begin
-      if ((v1 > p))
+      if ((v1 > p))      // This is a spike above threshold (30mv)
       begin
         v1 <= c;
         u1 <= u1reset;
       end
       else
-      begin
+      begin             
         v1 <= v1new;
         u1 <= u1new;
       end
     end
   end
-  assign uo_out = v1[17:10]; // 2.8 format
+  // Push out signed 8-bit integer to output pin (membrane voltage)
+  assign uo_out = v1[17:10]; 
+
   // dt = 1/16 or 2>>4
   // v1(n+1) = v1(n) + dt*(4*(v1(n)^2) + 5*v1(n) +1.40 - u1(n) +I)
   // What is actually implemented is:
@@ -91,10 +91,10 @@ module tt_um_exai_izhekevich_neuron (
   
 endmodule
 
+
 //////////////////////////////////////////////////
 //// signed mult of 2.16 format 2'comp////////////
 //////////////////////////////////////////////////
-
 module signed_mult (out, a, b);
 
 	output 		[17:0]	out;
