@@ -44,12 +44,14 @@ module tt_um_exai_izhekevich_neuron (
 
   assign a = uio_in[3:0];
   assign b = uio_in[7:4];
-  assign c = 18'shF_6666;   // 5.4
-  assign d = 18'sh0_4CCD;   // 0.2
-  assign p = 18'sh10_6666;   // 30
+  // c = -6.5
+  assign c = 18'sh3_8000   // -6.5
+  // d = 0.6
+  assign d = 18'sh0_051E;
+  assign p = 18'sh0_4CCC   // 30
   assign c14 = 18'sh1_6666; // 1.4
   // Set the input of ui_in[7:0] to last 8 bits of I, 
-  assign I = {ui_in[7:0], 10'hFF};
+  assign I = {ui_in[7:0], 10'266};
   // Parameters
   always @ (posedge clk)
   begin 
