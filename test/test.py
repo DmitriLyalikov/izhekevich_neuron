@@ -4,7 +4,6 @@
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
-import matplotlib.pyplot as plt
 
 @cocotb.test()
 async def test_project(dut):
