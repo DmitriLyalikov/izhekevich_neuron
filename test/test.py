@@ -66,10 +66,13 @@ async def test_spike(dut):
   # iterate through 250 clock cycles and log uo_out
   for i in range(500):
     await ClockCycles(dut.clk, 1)
-    dut._log.info(to_8b_signed(dut.uo_out.value.integer))
+    dut._log.info(int8_to8b_signed(dut.uo_out.value.integer))
 
   dut._log.info("Done")
 
 
-def to_8b_signed(int):
-  return struct.pack("b", int)
+def int8_to8b_signed(value):
+  if value > 127:
+    return value - 256
+  else:
+    return value
