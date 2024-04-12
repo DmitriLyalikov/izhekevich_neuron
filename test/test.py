@@ -62,12 +62,8 @@ async def test_spike(dut):
   await ClockCycles(dut.clk, 1)
   assert dut.uo_out.value.integer > 30 
   dut._log.info(dut.uo_out.value.integer)
-  await ClockCycles(dut.clk, 5)
-  dut._log.info(dut.uo_out.value.integer)
-  await ClockCycles(dut.clk, 5)
-  dut._log.info(dut.uo_out.value.integer)
-  await ClockCycles(dut.clk, 10)
-  dut._log.info(dut.uo_out.value.integer)
-  await ClockCycles(dut.clk, 10)
-  dut._log.info(dut.uo_out.value.integer)
+  # iterate through 250 clock cycles and log uo_out
+  for i in range(500):
+    await ClockCycles(dut.clk, 1)
+    dut._log.info(dut.uo_out.value.integer)
   dut._log.info("Done")
