@@ -62,14 +62,15 @@ module tt_um_exai_izhekevich_neuron (
       u1 <= 18'sh3_CCCD; // -0.2
     end
     else
-    begin 
+    if (ena)
+    begin
       if ((v1 > p))
-      begin 
+      begin
         v1 <= c;
         u1 <= u1reset;
       end
       else
-      begin   
+      begin
         v1 <= v1new;
         u1 <= u1new;
       end
@@ -103,7 +104,9 @@ module signed_mult (out, a, b);
 	wire	signed	[17:0]	out;
 	wire 	signed	[35:0]	mult_out;
 
+  // Remove linter warning of unused bits
 	assign mult_out = a * b;
 	//assign out = mult_out[33:17];
 	assign out = {mult_out[35], mult_out[32:16]};
+  assign mult_out = 0;
 endmodule
