@@ -45,7 +45,7 @@ module tt_um_exai_izhekevich_neuron (
   assign a = uio_in[3:0];
   assign b = uio_in[7:4];
   // c = -6.5
-  assign c = 18'sh3_8000   // -6.5
+  assign c = 18'sh3_8000;  // -6.5
   // d = 0.6
   assign d = 18'sh0_051E;
   assign p = 18'sh0_4CCC   // 30
