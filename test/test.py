@@ -30,3 +30,19 @@ async def test_project(dut):
   await ClockCycles(dut.clk, 1)
 
   assert dut.uo_out.value == 50
+
+@cocotb.test()
+async def test_reset(dut):
+  dut._log.info("Reset")
+  dut.ena.value = 1
+  dut.ui_in.value = 0
+  dut.uio_in.value = 0
+  dut.rst_n.value = 0
+  await ClockCycles(dut.clk, 1)
+  dut.rst_n.value = 0
+
+  await ClockCycles(dut.clk, 1)
+
+  assert dut.uo_out.value == 230
+
+  dut._log.info("Done")
