@@ -56,7 +56,7 @@ async def test_spike(dut):
   dut.ena.value = 1
   dut.rst_n.value = 0
   await ClockCycles(dut.clk, 1)
-  dut._log.info(dut.int8_to8b_signed(dut.uo_out.value.integer)
+  dut._log.info(dut.int8_to8b_signed(dut.uo_out.value.integer))
   dut.rst_n.value = 1
   dut.uio_in.value = 175
   dut.ui_in.value = 255
