@@ -102,11 +102,11 @@ module signed_mult (out, a, b);
 	input 	signed	[17:0] 	b;
 	
 	wire	signed	[17:0]	out;
+  /* verilator lint_off UNUSEDSIGNAL */
 	wire 	signed	[35:0]	mult_out;
 
   // Remove linter warning of unused bits
 	assign mult_out = a * b;
 	//assign out = mult_out[33:17];
 	assign out = {mult_out[35], mult_out[32:16]};
-  assign mult_out = 0;
 endmodule
