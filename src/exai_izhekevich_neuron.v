@@ -55,7 +55,7 @@ module tt_um_exai_izhekevich_neuron (
   begin 
     if (!rst_n)
     begin
-      v1 <= 18'sh3_4CCD; // -0.7v
+      v1 <= 18'shF_4CCD; // -0.7v
       u1 <= 18'sh3_CCCD; // -0.2
     end
     else
