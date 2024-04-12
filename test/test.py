@@ -33,6 +33,9 @@ async def test_project(dut):
 
 @cocotb.test()
 async def test_reset(dut):
+  clock = Clock(dut.clk, 10, units="us")
+  cocotb.start_soon(clock.start())
+
   dut._log.info("Reset")
   dut.ena.value = 1
   dut.ui_in.value = 0
