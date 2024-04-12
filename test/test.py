@@ -48,7 +48,7 @@ async def test_reset(dut):
 
 @cocotb.test()
 async def test_spike(dut):
-  clock = Clock(dut.clk, 10, units="us")
+  clock = Clock(dut.clk, 500000, units="us")
   cocotb.start_soon(clock.start())
 
   dut._log.info("Reset")
