@@ -40,6 +40,7 @@ module tt_um_exai_izhekevich_neuron (
   wire signed [17:0] v1xv1, v1xb;
   wire signed [17:0] p, c14;
   wire signed [17:0] c, d;
+  wire signed [17:0] I;
 
   assign a = uio_in[3:0];
   assign b = uio_in[7:4];
@@ -47,6 +48,8 @@ module tt_um_exai_izhekevich_neuron (
   assign d = 18'sh0_4CCD;   // 0.2
   assign p = 18'sh0_4CCC;   // 0.30
   assign c14 = 18'sh1_6666; // 1.4
+  // Set the input of ui_in[7:0] to last 8 bits of I, 
+  assign I = {ui_in[7:0], 9'h00};
 
   assign uo_out = v1[17:10];
 
