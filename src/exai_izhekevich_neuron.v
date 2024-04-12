@@ -46,7 +46,7 @@ module tt_um_exai_izhekevich_neuron (
   assign b = uio_in[7:4];
   assign c = 18'sh4_6666;   // 5.4
   assign d = 18'sh0_4CCD;   // 0.2
-  assign p = 18'sh0_4CCC;   // 0.30
+  assign p = 18'sh8_6666;   // 30
   assign c14 = 18'sh1_6666; // 1.4
   // Set the input of ui_in[7:0] to last 8 bits of I, 
   assign I = {ui_in[7:0], 10'hFF};
