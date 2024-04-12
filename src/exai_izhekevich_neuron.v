@@ -51,8 +51,6 @@ module tt_um_exai_izhekevich_neuron (
   // Set the input of ui_in[7:0] to last 8 bits of I, 
   assign I = {ui_in[7:0], 10'h00};
 
-  assign uo_out = v1[17:10];
-
   // Parameters
   always @ (posedge clk)
   begin 
@@ -68,11 +66,13 @@ module tt_um_exai_izhekevich_neuron (
       begin
         v1 <= c;
         u1 <= u1reset;
+        assign uo_out = c[17:10];
       end
       else
       begin
         v1 <= v1new;
         u1 <= u1new;
+        assign uo_out = v1new[17:10];
       end
     end
   end
@@ -89,6 +89,7 @@ module tt_um_exai_izhekevich_neuron (
 	assign du1 = (v1xb-u1)>>>a ;  //mult (du1, (v1xb-u1), a);
 	assign u1new = u1 + (du1>>>4) ; 
 	assign u1reset = u1 + d ;
+  
 endmodule
 
 //////////////////////////////////////////////////
