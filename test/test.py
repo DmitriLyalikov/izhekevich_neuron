@@ -84,7 +84,6 @@ async def test_sweep(dut):
   # Reset is active low
   dut.rst_n.value = 0  
   await ClockCycles(dut.clk, 1)
-  dut._log.info()
   dut._log.info(int8_to8b_signed(dut.uo_out.value.integer))
   # Sweep through input current, a, and b parameters and log uo_out for 100 cycles. 
   # Save these to test_sweep.log in format:
