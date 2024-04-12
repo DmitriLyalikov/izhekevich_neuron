@@ -39,9 +39,12 @@ module tt_um_exai_izhekevich_neuron (
   wire signed [17:0] u1reset, v1new, u1new, du1;
   wire signed [17:0] v1xv1, v1xb;
   wire signed [17:0] p, c14;
+  wire signed [17:0] c, d;
 
   assign a = uio_in[3:0];
   assign b = uio_in[7:4];
+  assign c = 18'sh4_6666;   // 5.4
+  assign d = 18'sh0_4CCD;   // 0.2
   assign p = 18'sh0_4CCC;   // 0.30
   assign c14 = 18'sh1_6666; // 1.4
 
