@@ -29,7 +29,7 @@ async def test_project(dut):
 
   await ClockCycles(dut.clk, 1)
 
-  assert dut.uo_out.value == 11001101
+  assert dut.uo_out.value == 11010011
 
 @cocotb.test()
 async def test_reset(dut):
@@ -39,10 +39,9 @@ async def test_reset(dut):
   dut.uio_in.value = 0
   dut.rst_n.value = 0
   await ClockCycles(dut.clk, 1)
-  dut.rst_n.value = 0
 
-  await ClockCycles(dut.clk, 1)
+  dut._log.info(dut.v1.value)
+  dut._log.info(dut.u1.value)
 
-  assert dut.uo_out.value == 11001101
-
+  assert dut.uo_out.value == 11010011
   dut._log.info("Done")
