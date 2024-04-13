@@ -116,7 +116,7 @@ async def test_sweep(dut):
   # Step through current at in 25 increments
   for firing_mode in range(0, 6):
     # a and b are 4-bit integers and are packed into uio_in as: [a[0:3], b[0:3]]
-    dut.ui_in.value = 40
+    dut.ui_in.value = 100
     dut.uio_in.value = firing_mode
     for i in range(100):
       await ClockCycles(dut.clk, 1)
