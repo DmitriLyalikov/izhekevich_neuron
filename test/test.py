@@ -123,9 +123,9 @@ async def test_sweep(dut):
       dut._log.info(f"{40} {abcd_params[firing_mode]} {int8_to8b_signed(dut.uo_out.value.integer)}")
       log.write(f"{i} {int8_to8b_signed(dut.uo_out.value.integer)} \n")
       # Reset the neuron
-      dut.rst_n.value = 0
-      await ClockCycles(dut.clk, 1)
-      dut.rst_n.value = 1
+    dut.rst_n.value = 0
+    await ClockCycles(dut.clk, 1)
+    dut.rst_n.value = 1
   log.close()
 
 # Convenience function to convert to our IO format (8-bit signed)

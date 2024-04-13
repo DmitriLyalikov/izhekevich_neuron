@@ -33,12 +33,12 @@ module tt_um_exai_izhikevich_neuron (
   assign uio_out = uio_in;      // We do not use second output pin, assign so Verilator doesn't yell at us
   assign uio_oe  = 0;           // Config uio_in output enable to 0: Input mode
   
-  reg        [3:0]  a, b;         
-  reg signed  [17:0] v1, u1;
+  reg         [3:0]  a, b;         
+  reg  signed  [17:0] v1, u1;
   wire signed [17:0] u1reset, v1new, u1new, du1;
   wire signed [17:0] v1xv1, v1xb;
   wire signed [17:0] p, c14;
-  reg signed [17:0] c, d;
+  reg  signed [17:0] c, d;
   wire signed [17:0] I;  // uio_in[3:0];
 
   //assign a = 4'b0010;      // .02
