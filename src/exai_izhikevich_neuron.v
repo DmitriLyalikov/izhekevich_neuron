@@ -63,7 +63,7 @@ module tt_um_exai_izhikevich_neuron (
     if (ena)
     begin
       // Switch case for different neuron types
-      case (uio_in[7:4])
+      case (uio_in[3:0])
         // RS (Regular Spiking) a = 0.02, b = 0.02, c = -.065, d = .08
         4'b0000: begin
           a <= 4'b0010;      // .02
