@@ -48,9 +48,6 @@ module tt_um_exai_izhikevich_neuron (
   assign p = 18'sh0_4CCC;   // 30
   assign c14 = 18'sh1_6666; // 1.4
 
-  			c <=  18'sh3_8000 ; // -0.5
-			d <=  18'sh0_051E ; // 0.02
-
   // 8-bit signed integer precision of input current 
   assign I = {ui_in[7:0], 10'h0}; 
 
@@ -119,6 +116,7 @@ module tt_um_exai_izhikevich_neuron (
           c <= 18'sh3_8000;  // -.065
           d <= 18'sh0_8000;  // .08
         end
+    endcase
     end
     else
     if (ena)
