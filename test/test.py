@@ -107,7 +107,7 @@ async def test_sweep(dut):
         dut.rst_n.value = 0
         await ClockCycles(dut.clk, 1)
         dut.rst_n.value = 1
-      
+  log.close()
 
 # Convenience function to convert to our IO format (8-bit signed)
 def int8_to8b_signed(value):
