@@ -75,6 +75,10 @@ async def test_spike(dut):
 
 @cocotb.test()
 async def test_sweep(dut):
+  # Create log if it doesn't exist
+  log = open("test_sweep.log", "w")
+  log.write("clk uo_out ui_in a b\n")
+
   clock = Clock(dut.clk, 500000, units="us")
   cocotb.start_soon(clock.start())
 
@@ -98,6 +102,7 @@ async def test_sweep(dut):
         for i in range(100):
           await ClockCycles(dut.clk, 1)
           dut._log.info(f"{input_current} {a} {b} {int8_to8b_signed(dut.uo_out.value.integer)}")
+          log.write(f"{i} {int8_to8b_signed(dut.uo_out.value.integer)} {input_current} {a} {b}\n")
         # Reset the neuron
         dut.rst_n.value = 0
         await ClockCycles(dut.clk, 1)
