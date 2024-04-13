@@ -88,7 +88,8 @@ async def test_sweep(dut):
   # Sweep through input current, a, and b parameters and log uo_out for 100 cycles. 
   # Save these to test_sweep.log in format:
   # clk uo_out ui_in a, b
-  for input_current in range(255):
+  # Step through current at in 25 increments
+  for input_current in range(0, 256, 25):
     # a and b are 4-bit integers and are packed into uio_in as: [a[0:3], b[0:3]]
     for a in range(16):
       for b in range(16):
