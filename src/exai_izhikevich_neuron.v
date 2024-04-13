@@ -83,14 +83,14 @@ module tt_um_exai_izhikevich_neuron (
           a <= 4'b0010;      // .02
           b <= 4'b0010;      // .02             
           c <= 18'sh3_8000;  // -.050
-          d <= 18'sh0_8000;  // .02
+          d <= 18'sh0_051E;  // .02
         end
         // FS (Fast Spiking) a = 0.1, b = 0.2, c = -.065, d = .02
         4'b0011: begin
           a <= 4'b1000;      // .1
           b <= 4'b0010;      // .2             
           c <= 18'sh3_8000;  // -.065
-          d <= 18'sh0_2000;  // .02
+          d <= 18'sh0_051E;  // .02
         end
         // TC (Thalamo-Cortical) a = 0.02, b = 0.25, c = -.065, d = .05
         4'b0100: begin
@@ -104,20 +104,20 @@ module tt_um_exai_izhikevich_neuron (
           a <= 4'b1000;      // .1
           b <= 4'b0101;      // .25             
           c <= 18'sh3_8000;  // -.065
-          d <= 18'sh0_2000;  // .02
+          d <= 18'sh0_051E;  // .02
         end
         // LTS (Low Threshold Spiking) a = 0.02, b = 0.25, c = -.065, d = .02
         4'b0110: begin
           a <= 4'b0010;      // .02
           b <= 4'b0101;      // .25             
           c <= 18'sh3_8000;  // -.065
-          d <= 18'sh0_2000;  // .02
+          d <= 18'sh0_051E;  // .02
         end
         default: begin
           a <= 4'b0010;      // .02
           b <= 4'b0010;      // .02             
           c <= 18'sh3_8000;  // -.065
-          d <= 18'sh0_8000;  // .08
+          d <= 18'sh0_051E; // .08
         end
     endcase
       if ((v1 > p))      // This is a spike above threshold (30mv)
