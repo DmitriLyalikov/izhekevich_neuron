@@ -25,10 +25,10 @@ import enum
 
 
 abcd_params = {
-  0: ("Regular Spiking", 0.02, .02, -65, 8), # Regular spiking
-  1: ("Intrinsically Bursting", 0.02, .02, -55, 4), # Intrinsically bursting
+  0: ("Regular-Spiking", 0.02, .02, -65, 8), # Regular spiking
+  1: ("Intrinsically-Bursting", 0.02, .02, -55, 4), # Intrinsically bursting
   2: ("Chattering", 0.02, .02, -50, 2), # Chattering
-  3: ("Fast Spiking", 0.1, 0.2, -65, 2), # Fast spiking
+  3: ("Fast-Spiking", 0.1, 0.2, -65, 2), # Fast spiking
   4: ("Thalamo-Cortical", 0.02, 0.25, -65, 0.05), # Thalamo-cortical
   5: ("Resonator",0.1, 0.25, -65, 2), # Resonator
   6: ("LTS", 0.02, 0.25, -65, 2), # Low threshold spiking
