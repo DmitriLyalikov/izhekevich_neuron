@@ -129,8 +129,19 @@ async def test_sweep(dut):
   log.close()
 
 # Convenience function to convert to our IO format (8-bit signed)
-def int8_to8b_signed(value):
-  if value > 127:
-    return value - 256
-  else:
-    return value
+def int8_to8b_signed(binary):
+    # Check if the number is negative
+    is_negative = binary & 0b10000000 != 0
+
+    # Extract integer and fractional parts
+    integer_part = (binary & 0b01000000) >> 6
+    fraction_part = binary & 0b00111111
+
+    # Calculate the decimal value
+    decimal_value = integer_part + (fraction_part / 64)
+
+    # Convert to negative if necessary
+    if is_negative:
+        decimal_value *= -1
+
+    return decimal_value * 10
