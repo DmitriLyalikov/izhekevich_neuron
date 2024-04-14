@@ -100,7 +100,7 @@ async def test_sweep(dut):
   log = open("test_sweep.log", "w")
   log.write("clk uo_out ui_in a b\n")
 
-  clock = Clock(dut.clk, 500000, units="us")
+  clock = Clock(dut.clk, 10, units="us")
   cocotb.start_soon(clock.start())
 
   dut._log.info("Reset")
@@ -116,7 +116,7 @@ async def test_sweep(dut):
   # Step through current at in 25 increments
   for firing_mode in range(0, 6):
     # a and b are 4-bit integers and are packed into uio_in as: [a[0:3], b[0:3]]
-    dut.ui_in.value = 100
+    dut.ui_in.value = 40
     dut.uio_in.value = firing_mode
     for i in range(500):
       await ClockCycles(dut.clk, 1)
