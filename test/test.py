@@ -144,4 +144,4 @@ def int8_to8b_signed(binary):
     if is_negative:
         decimal_value *= -1
 
-    return decimal_value * 100
+    return decimal_value 
