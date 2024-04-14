@@ -121,6 +121,7 @@ async def test_sweep(dut):
     for i in range(100):
       await ClockCycles(dut.clk, 1)
       dut._log.info(f"{40} {abcd_params[firing_mode]} {int8_to8b_signed(dut.uo_out.value.integer)}")
+      dut._log.info(f"{i} {dut.v1}")
       log.write(f"{i} {int8_to8b_signed(dut.uo_out.value.integer)} \n")
       # Reset the neuron
     dut.rst_n.value = 0
