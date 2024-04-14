@@ -54,6 +54,10 @@ module tt_um_exai_izhikevich_neuron (
     begin
       v1 <= 18'sh3_4CCD; // -0.7v 
       u1 <= 18'sh3_CCCD; // -0.2
+      a <= 6; // .02
+      b <= 6; // .02             
+      c <= 18'sh3_A666; // -.065
+      d <= 18'sh0_147A; // .08
     end
     else
     if (ena)

@@ -118,10 +118,9 @@ async def test_sweep(dut):
     # a and b are 4-bit integers and are packed into uio_in as: [a[0:3], b[0:3]]
     dut.ui_in.value = 100
     dut.uio_in.value = firing_mode
-    for i in range(100):
+    for i in range(500):
       await ClockCycles(dut.clk, 1)
       dut._log.info(f"{40} {abcd_params[firing_mode]} {int8_to8b_signed(dut.uo_out.value.integer)}")
-      dut._log.info(f"{i} {dut.v1.value}")
       log.write(f"{i} {int8_to8b_signed(dut.uo_out.value.integer)} \n")
       # Reset the neuron
     dut.rst_n.value = 0
