@@ -33,12 +33,12 @@ module tt_um_exai_izhikevich_neuron (
   assign uio_out = uio_in;      // We do not use second output pin, assign so Verilator doesn't yell at us
   assign uio_oe  = 0;           // Config uio_in output enable to 0: Input mode
   
-  reg         [3:0]  a, b;         
+  // reg         [3:0]  a, b;         
   reg  signed  [17:0] v1, u1;
   wire signed [17:0] u1reset, v1new, u1new, du1;
   wire signed [17:0] v1xv1, v1xb;
   wire signed [17:0] p, c14;
-  reg  signed [17:0] c, d;
+  reg  signed [17:0] a, b, c, d;
   wire signed [17:0] I;  // uio_in[3:0];
 
   //assign a = 4'b0010;      // .02
@@ -66,58 +66,58 @@ module tt_um_exai_izhikevich_neuron (
       case (uio_in[3:0])
         // RS (Regular Spiking) a = 0.02, b = 0.02, c = -.065, d = .08
         4'b0000: begin
-          a <= 4'b0010;      // .02
-          b <= 4'b0010;      // .02             
-          c <= 18'sh3_7FF1;  // -.065
-          d <= 18'sh0_0526;  // .08
+          a <= 18'sh0_051E;  // .02
+          b <= 18'sh0_051E;  // .02             
+          c <= 18'sh3_A666;  // -.065
+          d <= 18'sh0_147A;  // .08
         end 
         // IB (Intrinsically Bursting) a = 0.02, b = 0.02, c = -.055, d = .04
         4'b0001: begin
-          a <= 4'b0010;      // .02
-          b <= 4'b0010;      // .02             
-          c <= 18'sh3_7FFA;  // -.055
-          d <= 18'sh0_0522;  // .04
+          a <= 18'sh0_051E;      // .02
+          b <= 18'sh0_051E;      // .02             
+          c <= 18'sh3_8CCC;  // -.055
+          d <= 18'sh0_0A3D;  // .04
         end
         // CH (Chattering) a = 0.02, b = 0.02, c = -.050, d = .02
         4'b0010: begin
-          a <= 4'b0010;      // .02
-          b <= 4'b0010;      // .02             
+          a <= 18'sh0_051E;  // .02
+          b <= 18'sh0_051E;  // .02             
           c <= 18'sh3_8000;  // -.050
           d <= 18'sh0_051E;  // .02
         end
         // FS (Fast Spiking) a = 0.1, b = 0.2, c = -.065, d = .02
         4'b0011: begin
-          a <= 4'b0001;      // .1
-          b <= 4'b0010;      // .2             
-          c <= 18'sh3_7FF1;  // -.065
+          a <= 18'sh0_1999;      // .1
+          b <= 18'sh0_3333;      // .2             
+          c <= 18'sh3_A666;  // -.065
           d <= 18'sh0_051E;  // .02
         end
         // TC (Thalamo-Cortical) a = 0.02, b = 0.25, c = -.065, d = .05
         4'b0100: begin
-          a <= 4'b0010;      // .02
-          b <= 4'b0011;      // .25             
-          c <= 18'sh3_7FF1;  // -.065
-          d <= 18'sh0_0523;  // .05
+          a <= 18'sh0_051E;      // .02
+          b <= 18'sh0_4000;      // .25             
+          c <= 18'sh3_A666;  // -.065
+          d <= 18'sh0_0020;  // .05
         end
         // RZ (Resonator) a = 0.1, b = 0.25, c = -.065, d = .02
         4'b0101: begin
-          a <= 4'b0001;      // .1
-          b <= 4'b0011;      // .25             
-          c <= 18'sh3_7FF1;  // -.065
+          a <= 18'sh0_1999;      // .1
+          b <= 18'sh0_4000;    // .25             
+          c <= 18'sh3_A666;  // -.065
           d <= 18'sh0_051E;  // .02
         end
         // LTS (Low Threshold Spiking) a = 0.02, b = 0.25, c = -.065, d = .02
         4'b0110: begin
-          a <= 4'b0010;      // .02
-          b <= 4'b0011;      // .25             
-          c <= 18'sh3_7FF1;  // -.065
+          a <= 18'sh0_051E;  // .02
+          b <= 18'sh0_4000;  // .25             
+          c <= 18'sh3_A666;  // -.065
           d <= 18'sh0_051E;  // .02
         end
         default: begin
-          a <= 4'b0010;      // .02
-          b <= 4'b0010;      // .02             
-          c <= 18'sh3_8000;  // -.065
-          d <= 18'sh0_051E; // .08
+          a <= 18'sh0_051E; // .02
+          b <= 18'sh0_051E; // .02             
+          c <= 18'sh3_A666; // -.065
+          d <= 18'sh0_147A; // .08
         end
     endcase
       if ((v1 > p))      // This is a spike above threshold (30mv)
@@ -135,17 +135,17 @@ module tt_um_exai_izhikevich_neuron (
   // Push out signed 8-bit integer to output pin (membrane voltage)
   assign uo_out = v1[17:10]; 
 
-  // dt = 1/16 or 2>>4
-  // v1(n+1) = v1(n) + dt*(4*(v1(n)^2) + 5*v1(n) +1.40 - u1(n) +I)
-  // What is actually implemented is:
-  // v1(n+1) = v1(n) + (v1(n)^2) + 5/4*v1(n) +1.40/4 - u1(n)/4 + I/4)/4
-  signed_mult v1sq(v1xv1, v1, v1);
-  assign v1new = v1 + ((v1xv1 + v1+(v1>>>2) + (c14>>>2) - (u1>>>2) + (I>>>2))>>>2);
-
-  // u1(n+1) = u1 + dt*a*(b*v1(n) - u1(n))
-  assign v1xb = v1>>>b;         //mult (v1xb, v1, b);
-	assign du1 = (v1xb-u1)>>>a ;  //mult (du1, (v1xb-u1), a);
-	assign u1new = u1 + (du1>>>4) ; 
+	// dt = 1/16 or 2>>4
+	// v1(n+1) = v1(n) + dt*(4*(v1(n)^2) + 5*v1(n) +1.40 - u1(n) + I)
+	// but note that what is actually coded is
+	// v1(n+1) = v1(n) + (v1(n)^2) + 5/4*v1(n) +1.40/4 - u1(n)/4 + I/4)/4
+	signed_mult v1sq(v1xv1, v1, v1);
+	assign v1new = v1 + ((v1xv1 + v1+(v1>>>2) + (c14>>>2) - (u1>>>2) + (I>>>2))>>>2);
+	
+	// u1(n+1) = u1 + dt*a*(b*v1(n) - u1(n))
+	signed_mult bb(v1xb, v1, b);
+	signed_mult aa(du1, (v1xb-u1), a);
+	assign u1new = u1 + (du1>>>4)  ; 
 	assign u1reset = u1 + d ;
   
 endmodule
