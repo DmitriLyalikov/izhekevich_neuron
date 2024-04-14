@@ -129,7 +129,7 @@ async def test_sweep(dut):
   log.close()
 
 # Convenience function to convert to our IO format (8-bit signed)
-def int8_to8b_signed(value):
+def int8_to8b_signed(binary):
     # Check if the number is negative
     is_negative = binary & 0b10000000 != 0
 
