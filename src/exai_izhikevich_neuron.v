@@ -43,7 +43,7 @@ module tt_um_exai_izhikevich_neuron (
   assign c14 = 18'sh1_6666; // 1.4
 
   // 8-bit signed integer precision of input current 
-  assign I = {1'b0, ui_in[4:0], 10'h0}; 
+  assign I = {1'b0, ui_in[4:0], 12'h0}; 
 
   // Update logic 
   always @ (posedge clk)
