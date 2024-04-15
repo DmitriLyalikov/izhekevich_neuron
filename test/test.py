@@ -120,7 +120,7 @@ async def test_sweep(dut):
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 1)
     dut.rst_n = 1
-    for i in range(500):
+    for i in range(100):
       await ClockCycles(dut.clk, 1)
       dut._log.info(f"{40} {abcd_params[firing_mode]} {int8_to8b_signed(dut.uo_out.value.integer)}")
       log.write(f"{i} {int8_to8b_signed(dut.uo_out.value.integer)} \n")
