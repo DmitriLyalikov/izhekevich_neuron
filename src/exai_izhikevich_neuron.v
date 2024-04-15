@@ -58,11 +58,7 @@ module tt_um_exai_izhikevich_neuron (
       b <= 6; // .02             
       c <= 18'sh3_A666; // -.065
       d <= 18'sh0_147A; // .08
-    end
-    else
-    if (ena)
-    begin
-      // Switch case for different neuron types
+            // Switch case for different neuron types
       case (uio_in[3:0])
         // RS (Regular Spiking) a = 0.02, b = 0.02, c = -.065, d = .08
         4'b0000: begin
@@ -120,6 +116,10 @@ module tt_um_exai_izhikevich_neuron (
           d <= 18'sh0_147A; // .08
         end
     endcase
+    end
+    else
+    if (ena)
+    begin
       if ((v1 > p))      // This is a spike above threshold (30mv)
       begin
         v1 <= c;

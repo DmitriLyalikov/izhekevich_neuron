@@ -114,10 +114,12 @@ async def test_sweep(dut):
   # Save these to test_sweep.log in format:
   # clk uo_out ui_in a, b
   # Step through current at in 25 increments
-  for firing_mode in range(0, 6):
-    # a and b are 4-bit integers and are packed into uio_in as: [a[0:3], b[0:3]]
+  for firing_mode in range(0, 7):
     dut.ui_in.value = 40
     dut.uio_in.value = firing_mode
+    dut.rst_n.value = 0
+    await ClockCycles(dut.clk, 1)
+    dut.rst_n = 1
     for i in range(500):
       await ClockCycles(dut.clk, 1)
       dut._log.info(f"{40} {abcd_params[firing_mode]} {int8_to8b_signed(dut.uo_out.value.integer)}")
