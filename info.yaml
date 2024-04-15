@@ -25,9 +25,9 @@ pinout:
   ui[2]: "Input Current [2]"
   ui[3]: "Input Current [3]"
   ui[4]: "Input Current [4]"
-  ui[5]: "Input Current [5]"
-  ui[6]: "Input Current [6]"
-  ui[7]: "Input Current [7]"
+  ui[5]: "A Parameter [0]"
+  ui[6]: "A Parameter [1]"
+  ui[7]: "A Parameter [2]"
 
   # Outputs
   uo[0]: "Membrane Potential [0]"
@@ -40,14 +40,14 @@ pinout:
   uo[7]: "Membrane Potential [7]"
 
   # Bidirectional pins
-  uio[0]: "Izhikevich A [0]"
-  uio[1]: "Izhikevich A [1]"
-  uio[2]: "Izhikevich A [2]"
-  uio[3]: "Izhikevich A [3]"
-  uio[4]: "Izhikevich B [0]"
-  uio[5]: "Izhikevich B [1]"
-  uio[6]: "Izhikevich B [3]"
-  uio[7]: "Izhikevich B [4]"
+  uio[0]: "Neuron Select [0]"
+  uio[1]: "Neuron Select [1]"
+  uio[2]: "Neuron Select [2]"
+  uio[3]: "A Parameter [3]"
+  uio[4]: "B Parameter [0]"
+  uio[5]: "B Parameter [1]"
+  uio[6]: "B Parameter [3]"
+  uio[7]: "B Parameter [4]"
 
 # Do not change!
 yaml_version: 6

@@ -17,8 +17,6 @@
    6| LTS (Low Threshold Spiking) | .02 | 0.25 | -65 | 2   |
   */
 
-
-
 // Top Level Module
 module tt_um_exai_izhikevich_neuron (
     input  wire [7:0] ui_in,    // Dedicated inputs
@@ -45,73 +43,77 @@ module tt_um_exai_izhikevich_neuron (
   assign c14 = 18'sh1_6666; // 1.4
 
   // 8-bit signed integer precision of input current 
-  assign I = {ui_in[7:0], 10'h0}; 
+  assign I = {1'b0, ui_in[4:0], 10'h0}; 
 
   // Update logic 
   always @ (posedge clk)
   begin 
     if (!rst_n)          // Reset state
     begin
-      v1 <= 18'sh3_4CCD; // -0.7v 
-      u1 <= 18'sh3_CCCD; // -0.2
-      a <= 1; // .02
-      b <= 1; // .02             
-      c <= 18'sh3_A666; // -.065
-      d <= 18'sh0_147A; // .08
-            // Switch case for different neuron types
-      case (uio_in[3:0])
+      v1 <= 18'sh3_4CCD;     // -0.7v 
+      u1 <= 18'sh3_CCCD;     // -0.2
+      a <= 1;                // .02
+      b <= 1;                // .02             
+      c <= 18'sh3_A666;      // -.065
+      d <= 18'sh0_147A;      // .08
+      // Switch case for different neuron types
+      case (uio_in[2:0])
         // RS (Regular Spiking) a = 0.02, b = 0.02, c = -.065, d = .08
-        4'b0000: begin
-          a <= 14; //6;  // .02
-          b <= 14; //6;  // .02             
+        3'b000: begin
+          a <= 1;            // .02
+          b <= 1;            // .02             
           c <= 18'sh3_A666;  // -.065
           d <= 18'sh0_147A;  // .08
         end 
         // IB (Intrinsically Bursting) a = 0.02, b = 0.02, c = -.055, d = .04
-        4'b0001: begin
-          a <= 1; //6;      // .02
-          b <= 1; //6;      // .02             
+        3'b001: begin
+          a <= 1;            // .02
+          b <= 1;            // .02             
           c <= 18'sh3_8CCC;  // -.055
           d <= 18'sh0_0A3D;  // .04
         end
         // CH (Chattering) a = 0.02, b = 0.02, c = -.050, d = .02
-        4'b0010: begin
-          a <= 1; //6;  // .02
-          b <= 1;  // .02             
+        3'b010: begin
+          a <= 1;            // .02
+          b <= 1;            // .02             
           c <= 18'sh3_8000;  // -.050
           d <= 18'sh0_051E;  // .02
         end
         // FS (Fast Spiking) a = 0.1, b = 0.2, c = -.065, d = .02
-        4'b0011: begin
-          a <= 2; //4;      // .1
-          b <= 4;      // .2             
+        3'b011: begin
+          a <= 2;            // .1
+          b <= 4;            // .2             
           c <= 18'sh3_A666;  // -.065
           d <= 18'sh0_051E;  // .02
         end
         // TC (Thalamo-Cortical) a = 0.02, b = 0.25, c = -.065, d = .05
-        4'b0100: begin
-          a <= 1; //6;      // .02
-          b <= 4;      // .25             
+        3'b100: begin
+          a <= 1;            // .02
+          b <= 4;            // .25             
           c <= 18'sh3_A666;  // -.065
           d <= 18'sh0_0020;  // .05
         end
         // RZ (Resonator) a = 0.1, b = 0.25, c = -.065, d = .02
-        4'b0101: begin
-          a <= 2; // 4;     // .1
-          b <= 4;   // .25             
+        3'b101: begin
+          a <= 2;            // .1
+          b <= 4;            // .25             
           c <= 18'sh3_A666;  // -.065
           d <= 18'sh0_051E;  // .02
         end
         // LTS (Low Threshold Spiking) a = 0.02, b = 0.25, c = -.065, d = .02
-        4'b0110: begin
-          a <= 1; // 6;  // .02
-          b <= 4;  // .25             
+        3'b110: begin
+          a <= 1;            // .02
+          b <= 4;            // .25             
           c <= 18'sh3_A666;  // -.065
           d <= 18'sh0_051E;  // .02
         end
+        3'b111: begin
+          a <= {uio_in[3], ui_in[7:5]};
+          b <= uio_in[7:4];
+        end
         default: begin
-          a <= 1; // .02
-          b <= 1; // .02             
+          a <= 1;           // .02
+          b <= 1;           // .02             
           c <= 18'sh3_A666; // -.065
           d <= 18'sh0_147A; // .08
         end
