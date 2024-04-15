@@ -62,8 +62,8 @@ module tt_um_exai_izhikevich_neuron (
       case (uio_in[3:0])
         // RS (Regular Spiking) a = 0.02, b = 0.02, c = -.065, d = .08
         4'b0000: begin
-          a <= 1; //6;  // .02
-          b <= 1; //6;  // .02             
+          a <= 14; //6;  // .02
+          b <= 14; //6;  // .02             
           c <= 18'sh3_A666;  // -.065
           d <= 18'sh0_147A;  // .08
         end 
