@@ -137,9 +137,6 @@ module tt_um_exai_izhikevich_neuron (
   // Push out signed 8-bit integer to output pin (membrane voltage)
   assign uo_out = v1[17:10]; 
 
-	// dt = 1/16 or 2>>4
-	// v1(n+1) = v1(n) + dt*(4*(v1(n)^2) + 5*v1(n) +1.40 - u1(n) + I)
-	// but note that what is actually coded is
 	// v1(n+1) = v1(n) + (v1(n)^2) + 5/4*v1(n) +1.40/4 - u1(n)/4 + I/4)/4
 	signed_mult v1sq(v1xv1, v1, v1);
 	assign v1new = v1 + ((v1xv1 + v1+(v1>>>2) + (c14>>>2) - (u1>>>2) + (I>>>2))>>>2);
@@ -153,9 +150,7 @@ module tt_um_exai_izhikevich_neuron (
 endmodule
 
 
-//////////////////////////////////////////////////
-//// signed mult of 2.16 format 2'comp////////////
-//////////////////////////////////////////////////
+// signed mult of 2.16 format 2'comp
 module signed_mult (out, a, b);
 
 	output 		[17:0]	out;
